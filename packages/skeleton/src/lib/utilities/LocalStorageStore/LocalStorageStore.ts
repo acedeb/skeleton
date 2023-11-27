@@ -42,7 +42,11 @@ export function localStorageStore<T>(key: string, initialValue: T, options?: Opt
 			const json = BROWSER ? getStorage(storageType).getItem(key) : null;
 
 			if (json) {
-				set(<T>serializer.parse(json));
+				if (json === "undefined") {
+					set(<T>undefined);
+				} else {
+					set(<T>serializer.parse(json));
+				}
 			}
 
 			if (BROWSER) {
